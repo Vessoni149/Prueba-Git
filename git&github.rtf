@@ -1,0 +1,123 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang3082{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fmodern\fprq1\fcharset0 Lucida Console;}{\f2\fmodern\fprq1 Lucida Console;}}
+{\colortbl ;\red255\green0\blue0;\red0\green0\blue0;\red0\green255\blue0;\red212\green44\blue58;\red28\green168\blue0;\red192\green160\blue0;\red0\green240\blue240;\red0\green242\blue0;}
+{\*\generator Riched20 10.0.22000}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang10 Git es un sistema de control de versiones que guarda los cambios que se hicieron en un archivo, donde especificamente, cuando y quien los hizo.\par
+\cf1 git \i comando\i0  -help \cf2 muestra todos los subcomandos con sus funciones.\par
+Los guiones e los comandos se usan simples o dobles, los simples son para usar el comando abreviado y los dobles para usarlo completo, ej: -s o --staged.\cf0\par
+configurar git:\par
+\cf1 git config \cf0 muestra las configuraciones que tiene git\par
+\cf1 git config --list \cf0 muestra las config por defecto\par
+\cf1 git config --global user.name "\cf0 Agustin Vessoni\cf1 "\par
+git config --global user.email "\cf0 agustinvessoni149@gmail.com\cf1 "\par
+\cf0\par
+\cf1 git init \cf0 empieza un \ul repositorio \ulnone en la carpeta donde lo ejecutamos. Ademas se crea un area en memoria \ul ram \ulnone llamada \ul staged area.\par
+\cf1\ulnone git add \cf0 a\'f1ade archivos o cambios, y los \ul pone en el staged area creada anteiormente.\par
+\ulnone Con "git add ." a\'f1adis todos los archivos que fueron cambiados. Parace que no pasa nada al hacer ese comando, pero si usamos git status vemos que no dice que se hicieron cambios pero no hay comits enviados al repositorio. Mientras el archivo no este en el staged area sera untraked, una vez que lo a\'f1adamos pasara a tener el estado de tracked (rastreado).\par
+Si lo queremos sacar del staged area: podemos usar git rm nombreArchivo y luego git rm --cached nombreArchivo para confirmar. La diferencia entre el primer comando y el segundo es que si tiene el cached es que esta en memoria ram todavia, auque no en la base de datos. Hay que borrarlos de las 2 para borrarlo del taged area.\par
+\ul antes de add: \par
+\highlight3\ulnone\f1\fs18\lang3082 $\f2\lang10  \ul git status\ulnone\par
+On branch master\par
+Untracked files:\par
+  (use "git add <file>..." to include in what will be committed)\par
+        \cf4 git&github.rtf\par
+\cf0         \cf4 prueba2/\par
+\par
+\cf0 nothing added to commit but untracked files present (use "git add" to track)\par
+\highlight0\f0\fs22\par
+\ul despues de usar add:\ulnone\par
+\highlight3\f2\fs18 $ git status\par
+On branch master\par
+Changes to be committed:\par
+  (use "git restore --staged <file>..." to unstage)\par
+        \cf5 new file:   git&github.rtf\par
+\cf0         \cf5 new file:   prueba2/preuba2git.txt\par
+\cf1\highlight0\f0\fs22\par
+\f2\fs18 git restore --staged <file>\cf2\f1\lang3082 : saca al archivo del staged area (vuelve atr\'e1s el git add).\par
+\cf1\f0\fs22\lang10\par
+\cf0  \fs28 Para hacer el comit:\fs22\par
+\cf1 git commit \cf0 envia los archivos al sistema de la base de datos del sistema de control de versiones, para controlar los cambios que se hayan hecho. con " \cf1 -m "mensaje"\cf0 " a\'f1adimos un mensaje en el commit.\par
+si no usamos el -m va a aparecer una interfaz donde nos pida un mensaje, luego de escribirlo apretamos esc + shift + z + z\par
+El commit pone el archivo en la \ul rama master (\ulnone por defecto se llama asi por mi configuracion al instalar git)\par
+\cf1 git commit -am \i "mensaje" \cf0\i0 automaticamente hace el git add de los cambios en archivos que ya habiamos creado y los commitea. Ej damos add a un archivo, despues le hacemos cambios y despues con este comando se hace el add y el commit de una. No funciona para archivos no addeados previamente. \par
+\cf1 checkout\cf0  trae los cambios que le pidas (commit indicado). Osea que trae una version anterior que querramos de un archivo, si queremos quedarnos con esa version anterior le damos add y commit. Si damos git log nos va a mostrar  que el commit que checkautiamos esta en el head, y los commits anteriores a \'e9l, pero no los posteriores.\par
+El historial no se borra como con remove. pero no lo podemos volver a ver con git log los commists posteriores al que acabamos de regresar, porque va a mostrarnos el comit recien checkauteado y los anteriores. EJ. tengo 5 comits, hago el checkout del 3ro, si uso git log me va a mostrar que el ultimo (\ul head\ulnone ) es el tercero, y el 2do y 1ro, pero no va a mostrar ni el 4to ni el 5to. A\'fan as\'ed no los borra. Podemos volver a ellos:\par
+Si queremos volver a otra version,x ej a la 4ta tenemos que usar los codigos de commit que mostro el git log inicial, si limpiamos la consola perderemos esos codigos.\par
+Si queremos volver a la ultima version y que se puedan ver todos los commits en el git log es usando \cf1 git checkout master \cf0 que volveria todo al estado anterior como si no hubiesemos usado checkout.\par
+\cf1 git checkout \i numeroDeCommit archivo \cf0 si queremos especificar un archivo especifico\i0\f2\fs18\par
+\f0\fs22\par
+\cf1 git status\cf0 : para ver la base de datos, sandran cambios no a\'f1adidos x ej.\par
+\cf1 git show\cf0 : muestra todos los cambios historicos hechos, incluyendo las lineas de codigo que cambiaron, cuando y quien. Y donde estamos parados, en que rama.\par
+\cf1 git log\cf0 : muestra los comits que han ocurrido hasta ahora en la carpeta donde estemos posicionados. Para salid del log apretar q o z o crtl + z. \par
+A veces por defecto git viene configurado para msotrarnos solo los ultimos 4 commits. HACER ABAJO CON LA FLECHA PARA VER EL RESTO.\par
+Para que muestre  un numero especifico usar: \cf1 git log -\i nuemeroEntero \cf0\i0 mostrando as\'ed la cantidad de commits que le indiquemos.\par
+\cf1 git log \i archivo\cf0\i0 : muentra info de los cambios de cierto archivo tmb EJEMPO:\par
+\f2\fs18 $ git log prueba\\ git.txt\par
+\cf6 commit 055520ee0d554adcefa82e9075ed208a4782d63a (\cf7 HEAD -> \cf8 master\cf6 )\f1\lang11274\tab\f2\lang10\par
+\cf0 Author: Agustin Vessoni <agustinvessoni149@gmail.com>\par
+Date:   Sat Oct 22 12:45:36 2022 -0300\par
+    archivo modificado\par
+\par
+\cf1\f1\lang11274 git log --oneline \cf0 muesta la info resumida, solo mustra los codigos de los comits con sus respectivos mensajes.\f2\lang10\par
+\f0\fs22 Esto nos indica el numero de comit, autor, mail fecha y hora del commit. Los commits suelen aparecer en orden del mas nuevo arriba al mas viejo abajo. Con los numeros de los commit podemos ver las diferencias con otros commits usando \cf1 git diff \cf0 numeroCommit1 numerocommit2\par
+(no hace falta usar todos los numeros del commit, con 4 alcanzan).\par
+\par
+\cf1 git push: \cf0 envia a un repositorio remoto tu repositorio git local.\par
+\cf1 git pull\cf0 : trae. \par
+\cf1\par
+\cf0\par
+\cf1 git remove \cf0 permite eliminar archivos de git sin eliminar su historial del sistema de versiones. \i\par
+\cf1\i0 git remove --cached \cf0 elimina los archivos de nuestro repo local y del area stagin, pero los mantiene en nuestro disco duro. Basicamente los vuelve untrackeados.\par
+\cf1 git remove --force \cf0 elimina los archivos de git y del disco duro. Pero queda guardado en el historial, por lo que podemos acceder al registro (git log) para recuperarlos.\par
+\par
+\cf1 git reset \cf0 sirve para volver en el tiempo pero a diferencia de it checkout, no da la posibilidad de volver al futuro. Se borra la historia y no se recupera.\par
+\cf1 git reset \i numeroDeCommitAlQueQueremosVolver \cf0\i0 permite volver a esa version anterior. El archivo vuelve a como estaba en el commit indicado. Y si damos git log tambien se borra el historial de commits hasta el indicado. Ej, si tenemos 5 commits y queremos volver al 3ro, usando este comando se borratan los commits 4 y 5, del repositorio y del historial.\par
+hay 2 tipos de reset:\par
+\cf1 git reset \i numeroDeCommitAlQueQueremosVolver \i0 --hard \cf0 todo vuelve al estado anterior, tanto en la rama (lo comitido) como en el staged area (lo iniciado).\cf1\par
+git reset \i numeroDeCommitAlQueQueremosVolver \i0 --soft \cf0 borra todo el historial anterior al commit elegido. \i\par
+\cf1\i0 git reset HEAD \cf0 saca archivos del staging area, sirve para caundo le dimos add . pero no queriamos que todos los archivos sean comiteados despues, entonces con este comando sacamos los archivos del stagin para que sean untrackeds.\par
+\par
+\cf1 git revert numeroDeCommit \cf0 toma un commit y lo "copia y pega adelante" para que quede como ultimo commit realizado, sirve para volver a una version anterior sin borrar nada del historial log (lo commitea de una, no es que lo manda al staging area para que lo comitiemos nosotros). Como mensaje de este nuevo commit aparecera:\par
+ \ul revert "nombreDelCommitCopiado"\ulnone\par
+Ej. tengo 5 commits pero el 5to no me sirve, con este comando copio el comit 4 y me queda como comit 6.\par
+\par
+\cf1 git clone \i url\i0   \cf0 trae los archivos de un repositorio remoto a tu pc, y crea la base de datos de todos los cambios historicos en el repo local.\par
+\cf1 git push \i url \cf0\i0 enviamos nuestro repo a server remoto.\par
+\cf1 git fetch \cf0 trae las actualizaciones del repo remoto ya clonado, sirve para cunado ya le dimos clone y alguien despues hizo cambios y solo quiero traer esos cambios.\par
+\cf1 git merge \cf0 fusiona la  version que esta en el repo local con las modificaciones traidas con fetch.\par
+\cf1 git pull  \cf0 fusiona fetch y merge, as\'ed siempre vamos a tener una copia actualizada.\par
+\par
+Las ramas sirven para hacer cambios sin afectar a la principal, la master.\par
+Master es la rama ppal, donde  tenemos toda la historia de commits.\par
+El commit mas reciente es el head.\par
+Cuando uno crea una rama, lo que hace es crear una copia del ultimo commit, del header, en otro lado, y todos los cambios que hagamos ahi no los va a ver la rama master hasta que fusionemos.\par
+\cf1 git branch \i nombreRama \cf0\i0 crea una rama, que es una copia del commit desde donde la creamos. Pero no nos mueve de la rama en la que estamos. \par
+\cf1 git checkout \i nombreRama \cf0\i0 me muevo a la rama indicada. Espec\'edficamente a su \'faltimo commit.\par
+Si hacemos cambios en la rama nueva  hay que hacer el add y commit, sino, si nos movemos a otra rama sin commitear los cambios, \'e9stos se borrar\'edan.\par
+Si damos git show veremos que tenemos un head (ultimo commit) que le "apunta" al master Y a la nueva rama, esto es porque es una copai del ultimo commit.\par
+Si damos git status veremos que seguimos en la rama master.\par
+si dentro del branch ahcemos otro commit, \'e9ste va a ser en la rama, no en la master.\par
+Con \cf1 git log \cf0 podemos ver que el historial de commits en un inicio es igual tanto para la rama master como para la recien creada, y los nuevos commits que se hagan en cada rama solo quedaran en el registro de cada una de ellas, no es compartido el historial desde que se hace un nuevo commit. Ej. tengo 3 commits en la master, creo una rama1, hasta aca sera el mismo historial, si hago nuevos commits en la rama master solo se veran si hago git log en ella, y si hago nuevos commits en la rama1 solo se veran en el historial de \'e9sta.\par
+\par
+\cf1 git branch \cf0 nos dice las ramas que tenemos creadas y en cual tenemos el head.\par
+\par
+\cf1 git merge \i nombreRama \cf0\i0 fusiona la rama seleccionada con la rama donde estemos posicionados y ahi crea un nuevo commit que se puede ver con git log. El merge siempre ocurre en la rama donde estamos, por eso es conveniente posicionarse en master, para que el head este ahi, y ahi invocar el git merge, para que traiga los cambios de la rama y se fusionen en un nuevo commit dentro de la rama master. Si no, si estuviesemos posicionados en el la rama creada y le damos merge a la rama master, traeriamos los cambios de la master a la rama creada, haciendo a \'e9sta la principal.\par
+Si una \ul misma linea de codigo es cambiada \ulnone tanto en la rama como en la master, no nos permitira hacer el merge, en un archivo tendra que cambiar. Si abrimos VSC nos va a mostrar las diferencias en los archivos y con un simple click podemos elegir con cual quedarnos. Luego de esos cambios hay que comitearlos y se hace el merge automaticamente.\par
+Este comando nos va a pedir un mensaje.\par
+Con git log podemos ver que el ultimo commit es el merge de otros 2 (muestra sus numeros de commit resumidos).\par
+No se borra ningun commit.\par
+Si solo se hacen cambios en la rama creada y no en el master, al hacer el merge desde la master lo que va a pasar es que se va a traer el commit (o se va a copiar y pegar) de la rama creada. Entonces el commit de la rama creada y de la master va a ser el mismo.\par
+MASTER Y MAIN SON LA MISMA RAMA.\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+}
+ 
