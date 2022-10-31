@@ -1,5 +1,5 @@
-{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang3082{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fmodern\fprq1\fcharset0 Lucida Console;}{\f2\fmodern\fprq1 Lucida Console;}}
-{\colortbl ;\red255\green0\blue0;\red0\green0\blue0;\red0\green255\blue0;\red212\green44\blue58;\red28\green168\blue0;\red192\green160\blue0;\red0\green240\blue240;\red0\green242\blue0;}
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang3082{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fmodern\fprq1\fcharset0 Lucida Console;}{\f2\fmodern\fprq1 Lucida Console;}{\f3\fnil Calibri;}}
+{\colortbl ;\red255\green0\blue0;\red0\green0\blue0;\red0\green255\blue0;\red212\green44\blue58;\red28\green168\blue0;\red192\green160\blue0;\red0\green240\blue240;\red0\green242\blue0;\red247\green150\blue70;\red255\green255\blue0;}
 {\*\generator Riched20 10.0.22000}\viewkind4\uc1 
 \pard\sa200\sl276\slmult1\f0\fs22\lang10 Git es un sistema de control de versiones que guarda los cambios que se hicieron en un archivo, donde especificamente, cuando y quien los hizo.\par
 \cf1 git \i comando\i0  -help \cf2 muestra todos los subcomandos con sus funciones.\par
@@ -60,6 +60,10 @@ Date:   Sat Oct 22 12:45:36 2022 -0300\par
 \cf1\f1\lang11274 git log --oneline \cf0 muesta la info resumida, solo mustra los codigos de los comits con sus respectivos mensajes.\f2\lang10\par
 \f0\fs22 Esto nos indica el numero de comit, autor, mail fecha y hora del commit. Los commits suelen aparecer en orden del mas nuevo arriba al mas viejo abajo. Con los numeros de los commit podemos ver las diferencias con otros commits usando \cf1 git diff \cf0 numeroCommit1 numerocommit2\par
 (no hace falta usar todos los numeros del commit, con 4 alcanzan).\par
+\cf1 git log --all \cf0 muestra toda la historia del proyecto.\par
+\cf1 git log --all --graph \cf0 muestra uans rayas de como fueron las ramas\par
+\cf1 git log --all --graph --decorate -- oneline \cf0 muestra todo mas comprimido y mas grafico los branchs.\par
+Como son comandos largos, luego veremos como asignar comandos a una "variable" (tag).\par
 \par
 \cf1 git push: \cf0 envia a un repositorio remoto tu repositorio git local.\par
 \cf1 git pull\cf0 : trae. \par
@@ -84,7 +88,7 @@ Ej. tengo 5 commits pero el 5to no me sirve, con este comando copio el comit 4 y
 \cf1 git push \i url \cf0\i0 enviamos nuestro repo a server remoto.\par
 \cf1 git fetch \cf0 trae las actualizaciones del repo remoto ya clonado, sirve para cunado ya le dimos clone y alguien despues hizo cambios y solo quiero traer esos cambios.\par
 \cf1 git merge \cf0 fusiona la  version que esta en el repo local con las modificaciones traidas con fetch.\par
-\cf1 git pull  \cf0 fusiona fetch y merge, as\'ed siempre vamos a tener una copia actualizada.\par
+\cf1 git pull  \cf0 fusiona fetch y merge, as\'ed siempre vamos a tener una copia actualizada. Siempre antes de subir las modoficaciones con push a nuestro repo en github, debemos hacer un pull para traer las modificaiones que pudo haber tenido el repo (esto xq si se trabaja en un proyecto con otras personas puede que el repo externo se vea modificado). Si el repo externo fue modificado y nosotros no lo pulleamos a nustro local, e intentamos subir nustras modificasiones que hicimos en neustro repo local, nos va a saltar un error.\par
 \par
 Las ramas sirven para hacer cambios sin afectar a la principal, la master.\par
 Master es la rama ppal, donde  tenemos toda la historia de commits.\par
@@ -99,6 +103,8 @@ si dentro del branch ahcemos otro commit, \'e9ste va a ser en la rama, no en la 
 Con \cf1 git log \cf0 podemos ver que el historial de commits en un inicio es igual tanto para la rama master como para la recien creada, y los nuevos commits que se hagan en cada rama solo quedaran en el registro de cada una de ellas, no es compartido el historial desde que se hace un nuevo commit. Ej. tengo 3 commits en la master, creo una rama1, hasta aca sera el mismo historial, si hago nuevos commits en la rama master solo se veran si hago git log en ella, y si hago nuevos commits en la rama1 solo se veran en el historial de \'e9sta.\par
 \par
 \cf1 git branch \cf0 nos dice las ramas que tenemos creadas y en cual tenemos el head.\par
+\cf1 git brnch -r\cf0\tab mustra las ramas remotas, que estan en github x ej.\par
+\cf1 git branch -a\cf0\tab ves todas, en blanco las locales y el rojo las remotas\par
 \par
 \cf1 git merge \i nombreRama \cf0\i0 fusiona la rama seleccionada con la rama donde estemos posicionados y ahi crea un nuevo commit que se puede ver con git log. El merge siempre ocurre en la rama donde estamos, por eso es conveniente posicionarse en master, para que el head este ahi, y ahi invocar el git merge, para que traiga los cambios de la rama y se fusionen en un nuevo commit dentro de la rama master. Si no, si estuviesemos posicionados en el la rama creada y le damos merge a la rama master, traeriamos los cambios de la master a la rama creada, haciendo a \'e9sta la principal.\par
 Si una \ul misma linea de codigo es cambiada \ulnone tanto en la rama como en la master, no nos permitira hacer el merge, en un archivo tendra que cambiar. Si abrimos VSC nos va a mostrar las diferencias en los archivos y con un simple click podemos elegir con cual quedarnos. Luego de esos cambios hay que comitearlos y se hace el merge automaticamente.\par
@@ -108,15 +114,216 @@ No se borra ningun commit.\par
 Si solo se hacen cambios en la rama creada y no en el master, al hacer el merge desde la master lo que va a pasar es que se va a traer el commit (o se va a copiar y pegar) de la rama creada. Entonces el commit de la rama creada y de la master va a ser el mismo.\par
 MASTER Y MAIN SON LA MISMA RAMA.\par
 \par
+\b\par
+GITHUB\par
+\b0 Para subir nustro repo local a github:\par
+Primero crear el repo en github, que nos va a dar una url para que indiquemos donde subir nuestro repo local. Si creamos un read me...*\par
+\cf1 git remote add origin \i url \cf0\i0 este comando permite crear una conexion con el repositorio remoto que le indiquemos\par
+si usamos \cf1 git remote -v \cf0 vamos a ver cual es nuestro origin y lo que podemos hacer con el (fetch para traer y push para enviar).\cf1\par
+git push origin master \cf0 envia nuestro repo local al origen que le indicamos, la rama indicada -master en este caso-.\cf1\b\par
+\cf0\b0 * veremos que saldra error al realizar el push. Nos va a decir que se rechazo xq el repo remoto tiene trabajo que no tenemos localmente (el readme), lo que hay que hacer es integrar los cambios remotos al local antes de hacer el push. Esto sucede porque considera al repo remoto como el master.\par
+Para eso: nos traemos los cambios usando git fetch y luego git merge, o:\par
+\cf1 git pull origin master \cf0 que basicamente trae (pull) del origin (url asignada antes) hacia nuestra rama master. Va a salir una advertencia de que no hay commits comunes, ya que son repos totalmente distintos, esto no importa demasiado. Y adem\'e1s nos saldra un error reusandose a fusinar historiales no relacionados, ya que los historiales de commits son distintas (en el origin seguramente no hicimos ningun commit, solo tenemos el readme). \par
+Para forzar esto usamos:\par
+\cf1 git pull origin master --allow-unrelated-histories  \cf0 as\'ed se hace el merge con la rama master en nuestro repo local. Y ahora s\'ed podemos subirlo:\par
+\cf1 git push origin master\par
+\par
+\cf0\b LLAVES PUBLICAS Y PRIVADAS.\par
+\b0 En la consola, posicionados en el home (\cf6\f2\fs18 ~\cf0\f0\fs22 ): \cf1 ssh-keygen -t rsa -b 4096 -C "\i email\i0 " \cf0\par
+eso genera una llave y pregunta donde guardarla. Con enter aceptamos guardarla. Y nos pide un passphrase, una contrase\'f1a adicional de texto que le vamos a poner a nuestra llave publica y privada.\par
+Cada pc desde la que entre debe tener una llave publica y privada.\par
+Una vez que tenemos las llaves, agarramos la publica, la copiamos y en github vamos a nuestro perfil, settings, SSH ans GPG keys, new SSH key, le ponemos un titulo, y pegamos la llave publica. Pide la pass de github.\par
+Ahora en nuestros repositorios, vamos a alguno y buscamos el boton verde "code" para desplegarlo y ver las opciones de clonacion, tenemos la url HTTPS y tambien ah\'ed va a estar la url SSH, la copiamos y...\par
+en git bash, ubicados en nuestro proyecto vamos a cambiarle la url que le habiamos dado.\par
+\cf1 git remote -v \cf0 muestra las urls del proyecto. va a mostrar 2 en un principio, al que le hacemos fetch y al que le hacemos push, van a tener la misma url pero pueden ser distintos.\par
+(El repo traido de github se suele llamar origin por convencion).\par
+\cf1 git remote set -url origin \i urlCopiadaSSH \cf0\i0 y cambiamos la url de origin.\par
+si hacemos git remote -v de nuevo lo vamos a ver.\par
+Para ver si funcioar se puede probar hacer cambios en el proyecto y pushearlas al repo de github.\par
+(Antes de puchear siempre es conveniente pullear el remo remoto para traer las posibles actualizaciones git pull). \cf1 git pull origin master, git commit -m " ", git puch origin master.\par
+\cf0 ALIS, TAGS  Y VERSIONES\par
+\cf1 alias \i nombre\i0 ="git log --all --graph --decorate -- oneline" \cf0 para asignar un comando a un alias "nombre"\par
+luego si escribimos solo \cf1  nombre\cf0  se ejecutara el comando.\par
+Un tag asigna una version a un commit.\par
+\cf1 git tag -a \i nombreDelTag\i0  -m "\i mensaje\i0 " \i hashDelCommit\i0\par
+\cf0 por convenci\'f3n el nomvre del tag empieza von la v de version y un numero, ej: v0.1\par
+\cf1 git tag \cf0 muestra la lista de todos los tags que tenemos.\par
+para saber a que commit est\'e1 asignado el tag: \cf1 git show-ref --tags\par
+\cf0 Si damos git status veremos que no hay nada que commitear porque los tags no son cambios ,pero igualmente hay algo que enviar a github, porque la idea es que se puedan ver ahi. \par
+Entonces, \cf1 git pull origin master \cf0 para traer todos los cambios a nuestro repo local, y enviamos el tag: \cf1 git push origin --tags\par
+\cf0 Si vamos agithub en la parte de branch (arriba a la izquierda del repo) y desplemagos el menu, veremos que tenemos el tag, y si le gamos click entra a ese commit.\cf1\par
+\cf0 Si creamso un tag errado, para borrarlo: \cf1 git tag -d \i nombreDelTag \cf0\i0 con git tag vemos que desaparece.\par
+Ahora con git status veremos que no hay cambios, si lo pusheamos normalmente como cualquier otor push (git push origin master), aunque lo borremos en git, veremos que no se elimina de github. Para eliminarlo tambien de github:\par
+\cf1 git push origin :refs/tags/\i nombreDelTag\par
+\cf0\i0\par
+
+\pard\sl360\slmult1\b En github siempre se va a ver la rama maestro principal.\par
+\b0 Si queremos que se vean las ramas:\par
+\cf1 git checkout \i nombreRama\cf0\i0  para movernos a la rama.\par
+\cf1 git show-branch\cf0  muestra las ramas que existen y sus historias.\par
+\cf1 git show-branch \f3\endash\f0 all\cf0  lo mismo pero con mas datos\par
+\cf1 gitk\cf0  \ul abre en un software la historia en una interfaz mas visual.\ulnone\par
+\par
+Hacemos git pull origin master para traer la ultima versi\'f3n subida, nos movemos a la rama a subir y :\par
+\cf1 git push  origin \i nombreRama \cf0\par
+\i0\par
+\b Flujo de trabajo en git:\par
+\b0 Supongamos  que tenemos 2 ramas, una footer y un header. Lo van a trabajar 2 programadores por separado. Veremos que pasa cuando queremos fusionar el trabajo del footer con el trabajo del header y cuando los 2 est\'e9n listos para enviar a master.\par
+\par
+Primero creamos localmente una carpeta, se recomienda que tenga el nombre del proyecto a clonar.\par
+Cuando te incorporas a un proyecto ya iniciado no se va a usar git init, xq no hay que iniciar un nuevo repo sino traerlo de alg\'fan lado.\par
+Vas a GitHub, copias el url /https o SSH), y usas:\par
+\cf1 git clone URL \cf2 como el repo es p\'fablico no va a pedir ni user y pass.\par
+(si en vez de clonar el repo. solo lo descargamos en un archivo .zip \f3\endash\f0 github lo permite- no vamos a tener un repo local nuestro y no vamos a pdoer subir modificaciones al repo remoto).\par
+\par
+Habitualmente los desarrollos de Git tienen ignoradas las dependencias mediante el\~archivo .gitignore, por ello es importante que las instalemos de nuevo en el repositorio clon, en local.\par
+\par
+Si modificamos alg\'fan archivo del proyecto, hacemos el add y el commit, traemos de nuevo el repo git pull origin master, si damos git log veremos tambi\'e9n nuestro commit que va a estar en nuestro master local, pero no en el origin master ni en las origin ramas que estan subidas.\par
+Ahora para subir nuestro cambio hay que usar \cf1 git push origin master\cf2 , nos pide usuario y contrase\'f1a. Pero si no tenemos permiso no nos va a dejar.\par
+Agregar un usuario al repo:\par
+Ir al settings del repositorio, colaborators, y se agrega el mail. Pero para agregar un mail tiene que ser un mail p\'fablico. Sino con el \ul usuario\ulnone  alcanza.\par
+Una vez que el usuario acepte la invitaci\'f3n podr\'e1 hacer push a ese proyecto.\par
+\cf0 Supongamos que en nuestro repo local creamos ua carpeta y le ponemos una img, que es un archivo binario. Las buenas practicas indican que \'e9stos deben estar a parte, que no se agreguen al repo, que sean ignorados. A modo de ejemplo lo a\'f1adimos al repo local.\par
+Nos posicionamos en la rama header con git checkout.\par
+git add carpetaImg/img.png\par
+git commit \f3\endash\f0 am \f3\ldblquote\f0 logo del header\rdblquote\par
+git pull origni header para traer la ultima versi\'f3n de rama header.\par
+git push origin header \tab veremos que ya aparece en github.\par
+El problema es que las im\'e1genes son pesadas, si agregamos varias im\'e1genes el repo  va a ser pesado. Si editamos la img el cambio va a ser notado por git, va a pesar mas el archivo. Si la subimos a veces tarde en hacerse la actualizaci\'f3n de la img por un tema de cache. Si queremos actualizar la actualizaci\'f3n ctrl+f5.\par
+Del otro lado para hacer el footer:\par
+Si ya clonamos el repo de hithub a nuestro local, hay que ver donde estamos con git status, probablemente estemos en la master. \cf9\ul\b (git clone clona solo el master)\cf0\ulnone\b0 Nos traemos al rama footer con git pull origin footer, nos movemos ah\'ed con checkout.\par
+Una vez que agregamos el footer el en archivo html del repo local:\par
+Hago el add y el commit de las modificaciones.\par
+git pull origin footer para traer los posibles cambios,\par
+git push origin footer\par
+y ya tenemos el footer actualizado en github.\par
+Ahora para fusionar todo y suponiendo que ya nos trajimos todos los cambios de todas las ramas:\par
+Ir a la rama maestra git checkout master\par
+Git merge header\par
+Git push origin master para subir el header modificado.\par
+Y lo mismo con el footer: git checkout master, git merge footer y git push origin master.\par
+En un entorno profesional suele blokearse la rama master para evitar que cualquiera haga merges en ella.\par
+Se suele enviar la rama donde trabajamos a la rama staging, que es la rama de testing. Normalmente esto ser\'eda un merge con \'e9sta rama. Pero la forma correcta de hacerlo en un entorno  profesional es otra, que se hace de esta manera para revisar el c\'f3digo previamente: un pull request. Es un estado intermedio antes de hacer el merge. Permite que otros miembros del equipo  vean los cambios que hiciste y si lo aprueban se ejecuta el merge con staging.  Una vez que se pureba en staggin y esta todo OK, se hace el pull request pero a la rama master.\par
+Pull request es algo de github no de git. De hecho si vemos el \'e1rbol de git log veremos que el pull request  es como una pausa antes del merge.\par
+El pol request tambi\'e9n permite a personas que no son colaboradores trabajar y apoyar en una rama. Usualmente esto lo hace un especailista en DevOps.\par
+\par
+Si creamos una rama copia de la master para solo arreglar errores, es decir sobreescribir l\'edneas de c\'f3digo. Vamos a tener que hacer un pull request entre la master y la rama y luego el merge. Se puede hacer desde la consola o desde github. Igualmente esto es mas tema de DevOps.\par
+
+\pard\sa200\sl276\slmult1 Desde github:\par
+una vez subida la modifiacion de la rama creada para fixear a la master, antes de hacer el merge: (normalmente github detecta el cambio y nos ofrece "compare & pull request" pero tambien se puede hacer manualmente) en github vamos a tener que ir a la rama y crear un pull request: "new pull request"\par
+base: va a ser master\par
+compare: la rama que fixea\par
+va a aparecer una interfaz para agregar mensajes, poremos ver los cambios hehcos en las lineas de codigo.\par
+El nombre del commit va a ser tomado como el del pull  request. Y se puede agregar otro mensaje que sera visto en github. \par
+a la derecha: tambien se puede agregar personas "reviewers" para que revisen el request. "milestone" marca que logramos un objetivo y este pull req lo representa.\par
+Una vez creado el pull request, desde la perspectiva del reviwer, podemos ver que en el repo hay un pull request. Al entrar en el veremos varios mensajes entre ellos la solicitud de review, que la rama no tiene conflictos y se puede mergear (ahi se puede dar merge). Tambien se puede ver el/los commit/s (un request pueden ser varios commits) hecho en ese pull request para ver lo que se cambio, podemos ver el archivo cambiado.\par
+Si vamos a review changes podemos:\par
+comentar, aprobar (y asi mergear), o requerir cambios.\par
+Una vez hehco el commit se puede borrar el branch, ya que era solo para fixear. Dependera de cada equipo de trabajo si se borra o no.\par
+\par
+\b\fs28 fork\b0\fs22\par
+En un proyecto open sourse,  alguien que no es colaborador puede clonar el proyecto y trabajarlo (pero no hacer push ni merge, ni tags).\par
+Como usuario externo, puedo darle "watch" para que me lleguen notificaciones de las modificacones que se hace, poner estrellita "me gusta", y hacerle un \b fork (tenedor)\par
+\b0 Un fork es  tomar una copia del estado actual del proyecto y clonarlo como un proyecto tuyo. Solo se puede hacer con proyectos publicos.\par
+Al hacer fork se copia el repo en tu cuenta. Y se va a ver igual que el otro, hasta las personas que participaron en el.\par
+para traerlo a git: copiamos la url del proyecto clonado en nuestro perfil y en git bash usamos:\par
+\cf1 git clone \i URL\i0  \cf0\tab no va a pedir clave porque es una copia nuestra.\par
+Al editar el archivo, add y comitearlo,  le damos git push (no hace falta indicar origin master si solo tenemos una rama) y lo vamos a tener subido a nuestro repo.\par
+Ahora podemos hacer en github "new pull request", podremos comparar los diferentes forks "compare across forks", y hacer el pull request, donde podemos mandar un mensaje.\par
+El due\'f1o del repo oroginal tendra un mensaje de solicitud de pull request y podra mergear Para que el commit que hizo el tecero se haca en el proyecto principal.\par
+Como al hacer un fork \'e8ste pasa a ser un proyecto por separado, si se hace un cambio en el principal, no se hacen en el del tercero (en github), tendra que traerse los cambios todo el tiempo a su fork. Para eso: vemos que en el proyecto del tercero que forkeo, le va a decrique hay "x commits behind otro usuario". Se puede actualizar desde github o desde la consola de git.\par
+Se puede ir al proyecto original, copiar la url, y en la consola de git:\par
+\cf1 git remote add upstream \i url  \cf0\i0\tab el upstream puede ser otro nombre, este es el nombre mas comun. Esto crea una fuente nueva de donde podemos traer datos a nuestra rama master.\par
+Si usamso \cf1 git remote -v \cf0 podemos ver todos los "lugares" de donde podemos traer datos, osea todos los repositorios remotos asociados o que asociemos al proyecto.\par
+Entonces al hacer el git pull para traer datos, podemos elegir entre traer datos de el fork que esta  en neustro github, o traerlos desde el proyecto original en el github de donde lo forkiamos y que esta actualizado.\par
+\cf1 git pull upstream master\cf0\tab  asi nos traemos todos los cambios\par
+si hacemos un git push orin master, enviamso toda esta actualizacion de nuestro repo local al repo en hithub forkeado.\par
+Lo que habremos hecho es traer los cambios a nuestro repo local desde el repo original, y despues enviarlo al repo forkeado en nuetro github.\par
+\par
+\b GIT IGNORE\par
+\b0 No todos los arhivos deben ser vistos en el repo de github, ej contrase\'f1as, datos de bases de datos, tambi\'e9n las imgs ya que no es buena practica que sean parte del repo por ser un archivo binario (las imagenes como no son codigo deben ir en un \cf1 content delivery network\cf0 ). Eso no debe ser visto.\par
+En la raiz de nuestro poyecto (junto con todos los otros archivos principales) vamos a crear un archivo desde vsc \cf1 ".gitignore\cf0 " que es una lista de los archivos que vamos a ignorar.\par
+Dentro del archivo:\par
+* significa todo tipo de archivos, entonces si ponemos \cf1 *.jpg \cf0 se van a ignorar todos los jpg. Si usamso git status veremos que si habiamso a\'f1adido una imagen no aparecera como "untracked". Si deberemos addear el .gitignore\par
+\cf1 *.tipoArchivo\cf0\tab\tab ej \cf1 *.env  \cf0\tab\cf1 *.key \cf0 (para ignorar las llaves privadas.\par
+\cf1 /nombreCarpera\cf0\tab ignora una carpeta (\highlight10 no se si es necesaria la /)\highlight0\par
+\cf1 /carpeta/carpetaInterna\cf0\tab para ignorar una carp que esta dentro e otra carp\par
+\cf1 /storage*.key\cf0\tab\tab ignoraria las llaves que estan dentro de la carpeta storage\par
+\cf1 nombreArchivo\cf0\tab\tab simplemente escribiendo el nombre en una linea se ignora\par
+\cf1 !carpeta/archivo\cf0\tab para exceptuar un archivo dentro de una carpeta ignorada.\par
 \par
 \par
+README.md\par
+La extencion significa mark down. Es un intermedio entre html y texto plano.\par
+Es para explicar de que trata el repositorio, el proyecto. TAmbien va en la raiz.\par
+Editor.md  es un sitio donde podemos editar un archivo md y ver en tiempo real los cambios que le hacemos.  Cuando esta listo solo se copia y pega en nuestro archivo, se comitea y pushea.\par
+\par
+\b GITHUB PAGES\b0\tab\par
+Es un servicio de hosting gratis\tab pages.github.com explica como usarlo.\par
+Nos va a decir que hay que ir a github y crear un repo con nuestro nombre de usuario. Debe ser publico.\par
+Una vez creado, copiamos la url, y en el bash vamos al home con cd (o alguna carpeta creada por nosotors), git clone urlDelRepo\par
+esa carpeta, cuando entremos nos va a decir que estamos en la master, porque el repo tiene una carpeta git ya iniciada pero vacia.\par
+Ahora hay que crear un nuevo archivo index.html o pegar el ya creado, le damos add, commit, git pull origin amster, git push origin master.\par
+En nuestro perfil vamos a setting, github pages , en la seccion de source elegimso el master branch.\par
+As\'ed la pagina se va a subir pero no en la url raiz, sino en xxx.hithub.io/proyecto\par
+Si queremso que se cargue en la raiz hay que cambiar el nombre del repositorio y agregarle \cf1 .github.io\cf0\par
+Si vamos en nustro navegador a la url \cf1\i miUsuarioGitHub\i0 .github.io \par
+\cf0\par
+REBASE\par
+agarra una rama entera y la pega en la rama maestra, a diferencia del merge, el historial de la rama es borrado como si no hubiese existido, pegando la rama como continuacion de la master como si siempre hubiesen sido una misma linea. Se reescribe el repositorio. ES MUY MALA PRACTICA enviar esto al repo remoto, solo se recomienda usarse en el repo local.\par
+Supongamos que creamos una rama, hacemos un commit, otro commit, dentro de la rama creada, hacemos :\par
+\cf1 git rebase master\cf0\tab asi pega la rama al master\par
+Esto permite que si ademas de trabajar en el branch tambien hacemos cambios en la master, en un mismo archivo, podamso copiar la rama y pegarla delante del ultimo commit del master, fusionando asi la rama con \'e9ste. Cambia la historia desde donde arranco el branch, no se considera que empez\'f3 donde verdaderamente empez\'f3, sino que se considera que empezo luego del ultimo commit de la master.\par
+Todo eso ocurrira dentro de la rama creada. Si queremos hacerlo en la master hay que posiicionarse en la master y hacer \cf1 git rebase \i nombreRama\par
+\cf0\b\i0 Es muy importante hacer el rebase en se orden, primero en el branch y luego en la master, sino se crea un conflicto solo solucioanble con resert.\par
 \par
 \par
+\cf1\b0 git stash \tab\cf0\b sirve para (1)\b0 cuando estamos trabajando en alguna rama o en la master y antes de hacer el commit para guardar los cambios queremos ir a otra rama con checkout, esto si lo hacemos sin commitear primero borraria los cambios. Pero si no queremos que se borren y necesitamos cambiar de rama podemos usar stash.\par
+en donde estamos trabajando y tenemos modificaciones,en vez de hacer e commit usamos git stash y esto hace \ul volver al estado anterior \ulnone como si no hubiesemos modificado nada, se guardan los cambios que hicimos pero en un lugar temporal.\par
+Si usamos \cf1 git stash list \cf0 veremos que tenemos algo stasheado, indica "WIP" (work in progress": la rama y el commit con su n\'b0 y nombre.\par
+Ahora si podremos hacer el checkout a la otra rama. Cuando volvemos a la rama en la que hicimos el stassh podremos usar \cf1 git stash pop \cf0 y nos abrira el stash que teniamos.\par
+Si queremos crear una rama con un stash: hacemos \cf1 git stash\cf0 , y luego \cf1 git stash branch \i nombreRama.\par
+\cf0\i0 Si despues hacemos git stash list veremo que el stash no se guardo como tal, yaque ahora es una rama.\par
+\cf1 git stash drop\cf0\tab borra el stash\cf1\b\i\par
+\cf0\i0 sirve para (2) \b0 si empiezo a trabajar en el codigo y hacemos algo mal, rompemos el codigo y queremos volver todo a como estaba antes de tocar el codigo (al ultimo commit), a\'fan habiendo guardado los cambios en vsc, con git stash podemos volver hacia atras, ya que los cambios que hicimos iran a ese "lugar temporal".\par
+\par
+\cf1 git cherry-pick \i numeroCommit\i0\tab\cf0\tab trae comits viejos de un branch hacia la master.\par
+Si creamos un branch, avanzamos, pero nos piden que necesitan determinado commit del branch en la master, usando este comando se comia ese comit en el master. No hay que comitearlo en el master, se hace automatico y va a figurar como ultimo commit (head).\par
+Si mas tarde queremos mergear esa rama (no su commit viejo sino su ultimo commit), nos va a traer conflicos, pero en vssc podemos aceptar los cambios y ya. \par
+ES MALA PRACTICA.\par
+\par
+Git reset y reflog\par
+Si la cagamos, x ej, borramos un archivo y commiteamos, y mergeamos algo mal, borramos un branch...\par
+con \cf1 git reflog  \cf0 podemos ver todo el proyecto, aunque se haya borrado algun commit.\par
+y con \cf1 git reset --HARD numeroDeCommit \cf0\tab vuelve a traernos a la posicion donde estabamos (soft mantiene lo que tengamos en stagin ahi, hard resetea todo). Per tambien vuelve la historia atras, hasta donde nosotros nos movemos. Por eso es peligroso. Todo lo que este despues de donde nos movemos (el hash que elegimos) sera borrado, no lo veremos mas con git log\par
+Es mala practica git reset hard.\par
+Igualmente, si volvemos a escribir git reflog, se va a seguir viendo todo el historial.\par
 \par
 \par
+Si hacemos un commit que no queriamos porque nos falto algo:\par
+Hacemos la modificacion, add, y:\par
+\cf1 git commit --amend\cf0\tab reminda el commit, los cambios que haces los pega al commit anterior, no crea uno nuevo.  No deja resgistro el git log.\par
+\par
+B\'fasquedas en git:\par
+\cf1 git grep \i palabra\cf0\i0\tab\tab muestra todos los archivos y en que lineas de codigo esta esa palabra. \par
+Para contar la cantidad de veces que est\'e1 en cada archivo:\tab\cf1 git grep -c \i palabra\par
+\cf0\i0 Si queremso buscar una etiqueta: \cf1 git grep \i "<etiqueta>"\par
+\cf0\i0 Si lo que quiero buscar no esta en el codigo sino en los commits:\par
+\cf1 git  log -S \i "palabra"\cf0\i0\tab\par
 \par
 \par
+\b OTROS COMANDOS:\b0\par
+git shortlog -sn: muestra cuantos commit han hecho cada miembro del equipo.\par
+git shortlog -sn --all: muestra cuantos commit han hecho cada miembro del equipo, hasta los que han sido eliminados.\par
+git shortlog -sn --all --no-merge: muestra cuantos commit ha hecho cada miembro, quitando los eliminados sin los merges.\par
+git blame ARCHIVO: muestra quien hizo cada cosa l\'ednea por l\'ednea.\par
+git COMANDO --help:muestra como funciona el comando.\par
+git blame ARCHIVO -Llinea_inicial,linea_final: muestra quien hizo cada cosa l\'ednea por l\'ednea, indic\'e1ndole desde qu\'e9 l\'ednea ver. Ejemplo -L35,50.\par
+git branch -r: se muestran todas las ramas remotas.\par
+git branch -a: se muestran todas las ramas, tanto locales como remotas.\par
 \par
+\cf1\par
+\cf0\par
 \par
 \par
 }
